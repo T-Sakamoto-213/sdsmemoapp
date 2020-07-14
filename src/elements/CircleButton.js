@@ -1,27 +1,32 @@
 import React from "react";
-import { StyleSheet, View, } from "react-native";
 import * as Font from "expo-font";
-import { createIconSet } from '@expo/vector-icons';
-import fontAwsome from "../../assets/fonts/fa-solid-900.ttf";
+import { createIconSet } from "@expo/vector-icons";
 
-const CustomIcon = createIconSet({
-pencil: "\uf303",
-plus: "\uf067",
-check: "\uf00c",
-},'FontAwsome');
+import { StyleSheet, View, TouchableHighlight } from "react-native";
+import fontAwsome from "../../assets/fonts/fa-solid-900.ttf";
+// import { TouchableHighlight } from "react-native-gesture-handler";
+
+const CustomIcon = createIconSet(
+  {
+    plus: "\uf067",
+    check: "\uf00c",
+    pencil: "\uf303",
+  },
+  "FontAwsome"
+);
 
 class CircleButton extends React.Component {
   state = {
     fontLoaded: false,
-  }
+  };
   async componentDidMount() {
     await Font.loadAsync({
       FontAwsome: fontAwsome,
     });
-    this.setState({fontLoaded: true});
+    this.setState({ fontLoaded: true });
   }
   render() {
-    const { name, style, color } = this.props;
+    const { name, style, color, onPress } = this.props;
 
     let bgColor = "#3e5faa";
     let textColor = "#fff";
@@ -32,22 +37,31 @@ class CircleButton extends React.Component {
     }
 
     return (
-      <View style={[styles.circleButton, style,{ backgroundColor:bgColor}]}>
-        {
-          this.state.fontLoaded ? (
-            <CustomIcon name={name} style={[styles.circleButtonTitle, { color:textColor}]} />
-          ) : null
-        }
-      </View>
+      <TouchableHighlight style={[styles.container, style]} onPress={onPress} underlayColor="transparent">
+        <View
+          style={[styles.circleButton, style, { backgroundColor: bgColor }]}
+        >
+          {this.state.fontLoaded ? (
+            <CustomIcon
+              name={name}
+              style={[styles.circleButtonTitle, { color: textColor }]}
+            />
+          ) : null}
+        </View>
+      </TouchableHighlight>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  circleButton: {
+  container: {
+    width:48,
+    height:48,
     position: "absolute",
-    bottom: 32,
-    right: 32,
+    bottom: 24,
+    right: 24,
+  },
+  circleButton: {
     width: 48,
     height: 48,
     borderRadius: 24,
@@ -59,7 +73,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   circleButtonTitle: {
-    fontFamily:"FontAwsome",
+    fontFamily: "FontAwsome",
     fontSize: 24,
     lineHeight: 32,
     color: "#fff",
