@@ -6,12 +6,27 @@ import {
   Text,
   TouchableHighlight,
 } from "react-native";
+import firebase from "firebase";
 
 class LoginScreen extends React.Component {
   state = {
     email: "",
     password: "",
   };
+  handleSubmit() {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then((user) => {
+        console.log("success", user);
+        this.props.navigation.navigate("Home");
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+
+    // Log in!!
+  }
 
   render() {
     return (
@@ -41,9 +56,7 @@ class LoginScreen extends React.Component {
 
         <TouchableHighlight
           style={styles.button}
-          onPress={() => {
-            this.props.navigation.navigate("Home");
-          }}
+          onPress={this.handleSubmit.bind(this)}
         >
           <Text style={styles.buttonTitle}>ログインする</Text>
         </TouchableHighlight>

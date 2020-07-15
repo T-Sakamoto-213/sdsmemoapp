@@ -6,15 +6,56 @@ import {
   Text,
   TouchableHighlight,
 } from "react-native";
+import firebase from "firebase";
 
 class SignupScreen extends React.Component {
+  state = {
+    email: "",
+    password: "",
+  };
+
+  handleSubmit() {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then((user) => {
+        this.props.navigation.navigate("Home");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>メンバー登録</Text>
-        <TextInput style={styles.input} value="メールアドレス" />
-        <TextInput style={styles.input} value="パスワード" />
-        <TouchableHighlight style={styles.button} onPress={() => {}} underlayColor="#33508e">
+        <TextInput
+          style={styles.input}
+          value={this.state.email}
+          onChangeText={(text) => {
+            this.setState({ email: text });
+          }}
+          autoCapitalize="none"
+          autoCorrect={false}
+          placeholder="メールアドレス"
+        />
+        <TextInput
+          style={styles.input}
+          value={this.state.password}
+          onChangeText={(text) => {
+            this.setState({ password: text });
+          }}
+          autoCapitalize="none"
+          autoCorrect={false}
+          placeholder="パスワード"
+          secureTextEntry
+        />
+        <TouchableHighlight
+          style={styles.button}
+          onPress={this.handleSubmit.bind(this)}
+          underlayColor="#33508e"
+        >
           <Text style={styles.buttonTitle}>送信する</Text>
         </TouchableHighlight>
       </View>
@@ -48,8 +89,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     justifyContent: "center",
     alignItems: "center",
-    width:"60%",
-    alignSelf:"center",
+    width: "60%",
+    alignSelf: "center",
   },
   buttonTitle: {
     color: "#fff",
