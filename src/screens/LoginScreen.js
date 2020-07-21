@@ -12,7 +12,7 @@ import { NavigationActions } from "react-navigation";
 
 class LoginScreen extends React.Component {
   state = {
-    email: "user1@example.com",
+    email: "satudora@example.com",
     password: "password",
   };
   handleSubmit() {

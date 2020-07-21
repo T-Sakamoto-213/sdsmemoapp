@@ -1,15 +1,15 @@
 import React from "react";
-import { StyleSheet, View, Text, FlatList } from "react-native";
-import { TouchableHighlight } from "react-native-gesture-handler";
+import { StyleSheet, View, Text, TouchableHighlight, FlatList } from "react-native";
+// import { TouchableHighlight } from "react-native-gesture-handler";
 
 const dateString = (date) => {
-  const str = date.toISOString();
-  return str.split("T")[0];
+  if (date == null) { return '';}
+  const dateObject = date.toDate();
+  return dateObject.toISOString().split("T")[0];
 };
 
 class MemoList extends React.Component {
   renderMemo({ item }) {
-    console.log(item);
     return (
       <TouchableHighlight
         onPress={() => {

@@ -3,22 +3,23 @@ import { StyleSheet, View, Text } from "react-native";
 import CircleButton from "../elements/CircleButton";
 
 const dateString = (date) => {
-  const str = date.toISOString();
-  return str.split("T")[0];
+  if (date == null) {return '';}
+  const dateObject = date.toDate();
+  return dateObject.toISOString().split("T")[0];
 };
 
 class MemoDetailScreen extends React.Component {
   state = {
     memo: {},
-  };
+  }
 
-  componentWillMount() {
+  componentDidMount() {
     const { params } = this.props.navigation.state;
     this.setState({ memo: params.memo });
   }
 
   returnMemo(memo) {
-    this.setState({ memo: params.memo });
+    this.setState({ memo });
   }
 
   render() {
@@ -29,10 +30,10 @@ class MemoDetailScreen extends React.Component {
           <View style={styles.memoHeader}>
             <View>
               <Text style={styles.memoHeaderTitle}>
-                {memo.body.substring(0, 10)}
+                {memo.body ? memo.body.substring(0, 10) : ''}
               </Text>
               <Text style={styles.memoHeaderDate}>
-                {dateString.dateString(memo.createdOn)}
+                {dateString(memo.createdOn)}
               </Text>
             </View>
           </View>
@@ -48,8 +49,8 @@ class MemoDetailScreen extends React.Component {
           style={styles.editButton}
           onPress={() => {
             this.props.navigation.navigate("MemoEdit", {
-              ...memo,
-              returnMemo: this.returnMemo.bind(this),
+              memo,
+              returnMemo: this.returnMemo.bind(this)
             });
             //   memo,
             //   returnMemo: this.returnMemo.bind(this)

@@ -10,21 +10,22 @@ class MemoEditScreen extends React.Component {
     body: "",
     key: "",
   };
-  componentWillMount() {
+  componentDidMount() {
     console.log(this.props.navigation.state.params);
     const { params } = this.props.navigation.state;
     this.setState({ body: params.memo.body, key: params.memo.key });
   }
 
   handlePress() {
-    const { currentUser } = firebase.auth();
     const db = firebase.firestore();
-    const newDate = new Date();
+    const { currentUser } = firebase.auth();
+    const newDate = firebase.firestore.Timestamp.now();
     db.collection(`users/${currentUser.uid}/memos`).doc(this.state.key).update({
       body: this.state.body,
       createdOn: newDate,
-    });
-    then(() => {
+    })
+    .then(() => {
+      this.setState({ body:this.state.body});
       const { navigation } = this.props;
       navigation.state.params.returnMemo({
         body: this.state.body,
@@ -32,7 +33,8 @@ class MemoEditScreen extends React.Component {
         createdOn: newDate,
       });
       navigation.goBack();
-    }).catch((error) => {
+    })
+    .catch((error) => {
       console.log(error);
     });
   }

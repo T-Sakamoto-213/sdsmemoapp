@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import firebase from "firebase";
 
@@ -9,15 +9,15 @@ class MemoListScreen extends React.Component {
   state = {
     memoList:[],
   }
-  componentWillMount() {
-    const { currentUser } = firebase.auth();
+  componentDidMount() {
     const db = firebase.firestore();
-    db.collection(`users/${currentUser.uid}/memo`)
+    const { currentUser } = firebase.auth();
+    db.collection(`users/${currentUser.uid}/memos`)
     .onSnapshot((snapshot) => {
       const memoList = [];
       snapshot.forEach((doc) => {
         console.log(doc.data());
-        memoList.push({...doc.data(),key: doc.id});
+        memoList.push({ ...doc.data(),key: doc.id});
       });
       this.setState({ memoList });
 
