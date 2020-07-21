@@ -11,7 +11,7 @@ const CustomIcon = createIconSet(
     plus: "\uf067",
     check: "\uf00c",
     pencil: "\uf303",
-  },
+  },　
   "FontAwsome"
 );
 
