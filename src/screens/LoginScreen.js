@@ -4,6 +4,7 @@ import {
   View,
   Text,
   TextInput,
+  Image,
   TouchableHighlight,
 } from "react-native";
 import firebase from "firebase";
@@ -25,10 +26,8 @@ class LoginScreen extends React.Component {
         this.props.navigation.navigate("Home");
 
         const resetAction = NavigationActions.reset({
-          index:0,
-          actions:[
-            NavigationActions.navigate({routeName:"Home"}),
-          ],
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: "Home" })],
         });
         this.props.navigation.dispatch(resetAction);
       })
@@ -38,7 +37,7 @@ class LoginScreen extends React.Component {
   }
 
   handlePress() {
-    this.props.navigation.navigate('Signup');
+    this.props.navigation.navigate("Signup");
   }
 
   render() {
@@ -74,10 +73,14 @@ class LoginScreen extends React.Component {
           <Text style={styles.buttonTitle}>ログインする</Text>
         </TouchableHighlight>
 
-        <TouchableOpacity style={styles.signup} onPress={this.handlePress.bind(this)}>
+        <TouchableOpacity
+          style={styles.signup}
+          onPress={this.handlePress.bind(this)}
+        >
           <Text>メンバー登録する</Text>
-
         </TouchableOpacity>
+
+        <Image style={styles.ad} source={require("../image/satubag.png")} />
       </View>
     );
   }
@@ -117,9 +120,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   signup: {
-    marginTop:16,
-    alignSelf:"center",
+    
+    marginTop: 16,
+    alignSelf: "center",
   },
+  ad: {
+   width:330,
+   height:200,
+   top:50,
+  }
 });
 
 export default LoginScreen;
